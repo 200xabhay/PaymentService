@@ -91,11 +91,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     builder.Services.AddScoped<IPaymentService, PaymentServiceRepo>();
 builder.Services.AddHttpClient<LoanAccountClient>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7164");
+    client.BaseAddress = new Uri("https://loanaccountservicee-cmehdfdndjfnfxcq.canadacentral-01.azurewebsites.net");
 });
 builder.Services.AddHttpClient<EmiScheduleClient>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7285");
+    client.BaseAddress = new Uri("https://emischedular-g8hyarczf2evhbdh.canadacentral-01.azurewebsites.net");
 });
 builder.Services.AddCors(options =>
 {
