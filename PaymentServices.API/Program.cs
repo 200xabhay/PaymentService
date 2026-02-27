@@ -10,6 +10,7 @@ using PaymentServices.Infrastructure.External;
 using PaymentServices.Infrastructure.Repository;
 using Serilog;
 using System.Text;
+using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -35,9 +36,13 @@ Log.Logger = new LoggerConfiguration()
     builder.Host.UseSerilog();
 
 
-    builder.Services.AddControllers();
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter());
+    });    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -106,7 +111,6 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
-
 
 
 var app = builder.Build();
