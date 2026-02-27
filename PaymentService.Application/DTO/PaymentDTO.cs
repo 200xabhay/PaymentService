@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PaymentServices.Application.DTO
@@ -35,8 +36,8 @@ namespace PaymentServices.Application.DTO
             public decimal InterestPaid { get; set; }
             public decimal PenaltyPaid { get; set; }
             public decimal AdvancePayment { get; set; }
-
-            public PaymentStatus PaymentStatus { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public PaymentStatus PaymentStatus { get; set; }
             public DateTime PaymentDate { get; set; }
         }
     }
