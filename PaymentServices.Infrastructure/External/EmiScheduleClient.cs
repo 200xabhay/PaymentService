@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PaymentServices.Infrastructure.External
@@ -15,18 +17,36 @@ namespace PaymentServices.Infrastructure.External
         {
             _client = client;
         }
+        //public async Task<EmiResponseDTO> GetNextEmi(int loandId)
+        //{
+        //    var response = await _client.GetAsync($"api/Emi/{loandId}/upcoming");
+        //    if(!response.IsSuccessStatusCode)
+        //    {
+        //        throw new Exception("EmiSchedule Service Error");
+        //    }
+        //    var apiResonse=await response.Content.ReadFromJsonAsync<ApiResponse<IEnumerable<EmiResponseDTO>>>();
+        //    return apiResonse?.Data?.FirstOrDefault();
+
+        //}
         public async Task<EmiResponseDTO> GetNextEmi(int loandId)
         {
             var response = await _client.GetAsync($"api/Emi/{loandId}/upcoming");
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("EmiSchedule Service Error");
             }
-            var apiResonse=await response.Content.ReadFromJsonAsync<ApiResponse<IEnumerable<EmiResponseDTO>>>();
-            return apiResonse?.Data?.FirstOrDefault();
-            
+
+            var json = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
+
+            var apiResponse = JsonSerializer.Deserialize<ApiResponse<IEnumerable<EmiResponseDTO>>>(json, options);
+            return apiResponse?.Data?.FirstOrDefault();
         }
-         public async Task UpdateEmiAfterPayment(UpdateEmiPaymentDTO dto)
+        public async Task UpdateEmiAfterPayment(UpdateEmiPaymentDTO dto)
         {
             var response = await _client.PutAsJsonAsync("api/Emi/update-payment", dto);
         }
