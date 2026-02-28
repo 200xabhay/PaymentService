@@ -29,7 +29,8 @@ namespace PaymentServices.Application.DTO
         public decimal ClosingBalance { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public PaymentStatus PaymentStatus { get; set; }
+        //public PaymentStatus PaymentStatus { get; set; }
+        public string PaymentStatus { get; set; }
 
         public decimal PaidAmount { get; set; }
 
