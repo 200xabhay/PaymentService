@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PaymentServices.Application.DTO
@@ -27,6 +28,7 @@ namespace PaymentServices.Application.DTO
 
         public decimal ClosingBalance { get; set; }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public PaymentStatus PaymentStatus { get; set; }
 
         public decimal PaidAmount { get; set; }
