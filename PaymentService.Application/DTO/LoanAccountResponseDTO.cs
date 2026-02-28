@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PaymentServices.Application.DTO
@@ -13,7 +14,7 @@ namespace PaymentServices.Application.DTO
         public decimal OutstandingInterest { get; set; }
         public decimal OutstandingPenalty { get; set; }
         public int RemainingTenure { get; set; }
-
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public AccountStatus AccountStatus { get; set; }
 
 
